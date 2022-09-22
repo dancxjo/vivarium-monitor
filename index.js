@@ -3,7 +3,6 @@ const express = require("express");
 const child = require("child_process");
 const path = require("path");
 
-
 const sensorType = 11;
 const sensorPin = 4;
 

@@ -18,8 +18,53 @@
   </head>
 
   <body>
+    <h2>Temperature &amp; Humidity</h2>
+    <dl>
+      <dt>Temperature</dt>
+      <dd id="temp"></dd>
+      <dt>Humidity</dt>
+      <dd id="humidity"></dd>
+    </dl>
     <h2>Fans</h2>
-    <p>Fans are currently <strong>on</strong>.</p>
-    <button class="pure-button">Stop the fans</button>
+    <p>Fans are currently <strong id="fanState">on</strong>.</p>
+    <button id="fanToggle" class="pure-button">Stop the fans</button>
+    <script>
+      function updateFanState() {
+        fetch("/fans")
+          .then((response) => response.json())
+          .then((data) => {
+            const el = document.getElementById("fanState");
+            el.innerHTML = data.on ? "on" : "off";
+            const b = document.getElementById("fanToggle");
+            b.innerHTML = "Turn fans " + (data.on ? "off" : "on");
+            b.onclick = () => {
+              b.disabled = true;
+              fetch("/fans/" + (data.on ? "off" : "on")).then(() => {
+                updateFanState();
+                b.disabled = false;
+              });
+            };
+          });
+      }
+
+      function updateDht() {
+        fetch("/dht")
+          .then((response) => response.json())
+          .then((data) => {
+            const temp = document.getElementById("temp");
+            temp.innerHTML = data.f + "&deg;F";
+            const humidity = document.getElementById("humidity");
+            humidity.innerHTML = data.h + "%";
+          });
+      }
+
+      updateFanState();
+      updateDht();
+
+      setInterval(10000, () => {
+        updateFanState();
+        updateDht();
+      });
+    </script>
   </body>
 </html>
