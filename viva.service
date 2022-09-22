@@ -4,7 +4,7 @@ Documentation=https://nowhere.com
 After=network.target
 
 [Service]
-ExecStart=node /var/local/viva/index.js
+ExecStart=forever start /var/local/viva/index.js
 Restart=always
 
 [Install]

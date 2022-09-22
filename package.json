@@ -4,13 +4,17 @@
   "description": "A node server to manage my vivarium",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "forever start index.js",
     "test": "jest"
   },
   "author": "Travis Reed",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
+    "forever": "^4.0.3",
     "node-dht-sensor": "^0.4.3"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
   }
 }
