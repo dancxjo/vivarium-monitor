@@ -1,6 +1,8 @@
 const dht = require("node-dht-sensor").promises;
 const express = require("express");
 const child = require("child_process");
+const path = require("path");
+
 
 const sensorType = 11;
 const sensorPin = 4;
@@ -17,7 +19,7 @@ function cToF(c) {
 initializeTemperatureSensor();
 
 const app = express();
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 const port = 8080;
 
 app.get("/dht", async (req, res) => {
