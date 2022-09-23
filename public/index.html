@@ -15,7 +15,11 @@
       href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-responsive-min.css"
     />
     <title>Vivarium</title>
-    <style>html { padding: 2em; } </style>
+    <style>
+      html {
+        padding: 2em;
+      }
+    </style>
   </head>
 
   <body>
@@ -26,7 +30,7 @@
     <button id="fanToggle" class="pure-button">Stop the fans</button>
     <script>
       function updateFanState() {
-        fetch("/fans")
+        fetch("/fans", { cache: "no-store" })
           .then((response) => response.json())
           .then((data) => {
             const el = document.getElementById("fanState");
@@ -44,7 +48,7 @@
       }
 
       function updateDht() {
-        fetch("/dht")
+        fetch("/dht", { cache: "no-store" })
           .then((response) => response.json())
           .then((data) => {
             const temp = document.getElementById("temp");
@@ -54,13 +58,17 @@
           });
       }
 
-      updateFanState();
-      updateDht();
+      let i = 0;
 
-      setInterval(10000, () => {
+      function tick() {
+        console.log(`tick ${i++}`);
         updateFanState();
         updateDht();
-      });
+      }
+
+      tick();
+
+      setInterval(tick, 3000);
     </script>
   </body>
 </html>
